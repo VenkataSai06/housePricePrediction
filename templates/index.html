@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Predictor</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .container {
+            max-width: 640px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+    <div class="container bg-gray-800 shadow-xl rounded-2xl p-8 space-y-8">
+        <h1 class="text-4xl font-bold text-center text-gray-100">House Price Predictor</h1>
+        <p class="text-center text-gray-400">
+            Enter the details of the house below to get a price prediction.
+        </p>
+        
+        <form id="prediction-form" class="space-y-6">
+            <div class="space-y-6">
+                <div class="flex flex-col">
+                    <label for="area" class="text-lg font-medium text-gray-300">Area (sq ft)</label>
+                    <input type="number" id="area" name="area" required min="0"
+                           class="mt-2 p-3 w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="bedrooms" class="text-lg font-medium text-gray-300">Bedrooms</label>
+                    <input type="number" id="bedrooms" name="bedrooms" required min="0"
+                           class="mt-2 p-3 w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="bathrooms" class="text-lg font-medium text-gray-300">Bathrooms</label>
+                    <input type="number" id="bathrooms" name="bathrooms" required min="0"
+                           class="mt-2 p-3 w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+            </div>
+            
+            <div class="flex justify-center">
+                <button type="submit" 
+                        class="w-full py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-transform transform hover:scale-105">
+                    Get Prediction
+                </button>
+            </div>
+        </form>
+        
+        <div id="loading-spinner" class="hidden text-center text-blue-400 font-medium">
+            Predicting...
+        </div>
+
+        <div id="result-container" class="hidden text-center p-6 bg-blue-950 rounded-lg shadow-inner">
+            <h2 class="text-2xl font-bold text-blue-300">Predicted Price</h2>
+            <p id="result-text" class="text-3xl mt-2 font-extrabold text-blue-400"></p>
+        </div>
+
+        <div id="error-message" class="hidden text-center p-4 bg-red-900 text-red-300 rounded-lg">
+            
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const resultContainer = document.getElementById('result-container');
+            const resultText = document.getElementById('result-text');
+            const errorMessage = document.getElementById('error-message');
+
+            // Hide previous results and errors
+            resultContainer.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+
+            const data = {
+                area: parseFloat(form.area.value),
+                bedrooms: parseInt(form.bedrooms.value),
+                bathrooms: parseInt(form.bathrooms.value)
+            };
+
+            try {
+                const response = await fetch('/predict/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // CSRF token is not needed with @csrf_exempt
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Something went wrong.');
+                }
+
+                const result = await response.json();
+
+                // Display the prediction
+                resultText.textContent = result.prediction;
+                resultContainer.classList.remove('hidden');
+
+            } catch (error) {
+                // Display the error message
+                errorMessage.textContent = `Error: ${error.message}`;
+                errorMessage.classList.remove('hidden');
+            } finally {
+                // Hide the loading spinner
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
