@@ -11,9 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@e^#n-7z$o0(s*c3+8^8y#w6+h6v3*^e-w*q)r&5_x*#r_w!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # IMPORTANT: Change DEBUG to False for production!
 
-ALLOWED_HOSTS = []
+# Add your Render app URL to ALLOWED_HOSTS
+ALLOWED_HOSTS = ['housepriceprediction.onrender.com']
 
 
 # Application definition
@@ -25,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',  # Add your new app here
+    'myapp',
 ]
 
 MIDDLEWARE = [
