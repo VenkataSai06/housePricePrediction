@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-@e^#n-7z$o0(s*c3+8^8y#w6+h6v3*^e-w*q)r&5_x*#r_w!'
 DEBUG = False # IMPORTANT: Change DEBUG to False for production!
 
 # Add your Render app URL to ALLOWED_HOSTS
-ALLOWED_HOSTS = ['housepriceprediction.onrender.com']
+ALLOWED_HOSTS = ['housepriceprediction.onrender.com', '*']
 
 
 # Application definition
