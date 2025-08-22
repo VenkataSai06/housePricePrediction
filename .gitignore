@@ -1,0 +1,16 @@
+# Database
+db.sqlite3
+
+# Environment variables
+.env
+
+# Django-specific files
+__pycache__/
+*.pyc
+*.log
+media/
+venv/
+.vscode/
+
+# Machine Learning Model
+model/
