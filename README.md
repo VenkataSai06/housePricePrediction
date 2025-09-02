@@ -1,6 +1,6 @@
-housePricePrediction/
-├── myproject/            # Main Django project directory
-│   ├── myapp/            # The Django application
+#housePricePrediction/
+#├── myproject/            # Main Django project directory
+#│   ├── myapp/            # The Django application
 │   │   ├── views.py      # Core application logic
 │   │   └── urls.py       # URL routing for the app
 │   ├── templates/
