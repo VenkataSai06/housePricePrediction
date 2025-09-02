@@ -1,3 +1,16 @@
+housePricePrediction/
+├── myproject/            # Main Django project directory
+│   ├── myapp/            # The Django application
+│   │   ├── views.py      # Core application logic
+│   │   └── urls.py       # URL routing for the app
+│   ├── templates/
+│   │   └── index.html    # Front-end user interface
+│   ├── settings.py       # Project-wide configuration
+│   └── urls.py           # Main URL dispatcher
+├── model/                # Directory to store the trained ML model
+│   └── house_price_model.joblib
+├── Procfile              # For deployment on platforms like Render
+└── requirements.txt      # Project dependencies
 The most important files to focus on are the ones that define the project's logic and structure. Here are the main files you need to understand, grouped by their function:
 
 1. The Machine Learning Core
